@@ -1,10 +1,10 @@
-import { PortfolioClient } from '@/components/layout/PortfolioClient'
+import { PortfolioView } from '@/components/layout/PortfolioView'
 import { expertiseItems, experiences, education, languages, additionalSkills, profileDesc, projects, webProjects } from '@/data/portfolio'
 
 export default function Home() {
   return (
     <main>
-      <PortfolioClient
+      <PortfolioView
         expertise={expertiseItems}
         experiences={experiences}
         education={education}

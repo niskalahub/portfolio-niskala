@@ -26,7 +26,6 @@ export const metadata: Metadata = {
     description: "Vocational High School Graduate in Software Engineering. IT Support, Graphic Design & Web Development.",
     url: 'https://portfolio.niskalahub.com',
     siteName: 'Agung Hermawan Portfolio',
-    images: [{ url: '/profile.jpg', width: 800, height: 1000, alt: 'Agung Hermawan Profile' }],
     locale: 'id_ID',
     type: 'website',
   },
@@ -35,6 +34,9 @@ export const metadata: Metadata = {
     shortcut: '/icon.svg',
     apple: '/icon.svg',
   },
+};
+
+export const viewport = {
   themeColor: '#000000',
 };
 

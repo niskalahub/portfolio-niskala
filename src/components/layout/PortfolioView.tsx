@@ -1,17 +1,12 @@
-'use client'
 
-import { useRef } from 'react'
 import Image from 'next/image'
-import { HeroCanvas } from '@/components/features/3d/HeroCanvas'
+import { HeroCanvasDynamic as HeroCanvas } from '@/components/features/3d/HeroCanvasDynamic'
 import { ContactForm } from '@/components/features/ContactForm'
-import { useGSAP } from '@gsap/react'
-import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { PortfolioAnimator } from '@/components/layout/PortfolioAnimator'
+import { ResumeDownloadButton } from '@/components/features/ResumeDownloadButton'
 import type { Expertise, Experience, Education, Language, Skill, Project, WebProject } from '@/data/portfolio'
 
-gsap.registerPlugin(ScrollTrigger)
-
-interface PortfolioClientProps {
+interface PortfolioViewProps {
     expertise: Expertise[]
     experiences: Experience[]
     education: Education[]
@@ -22,51 +17,9 @@ interface PortfolioClientProps {
     webProjects: WebProject[]
 }
 
-export function PortfolioClient({ expertise, experiences, education, languages, additionalSkills, profile, projects, webProjects }: PortfolioClientProps) {
-    const containerRef = useRef<HTMLDivElement>(null)
-    const horizontalPanelRef = useRef<HTMLDivElement>(null)
-
-    useGSAP(() => {
-        const ctx = gsap.context(() => {
-            gsap.from('.hero-word', {
-                y: 100,
-                opacity: 0,
-                rotateZ: 4,
-                stagger: 0.12,
-                duration: 1.2,
-                ease: 'power4.out',
-                delay: 0.4
-            })
-
-            gsap.to('.hero-layer', {
-                scrollTrigger: {
-                    trigger: '.hero-layer',
-                    start: 'top top',
-                    end: 'bottom top',
-                    scrub: 1.2,
-                },
-                yPercent: 35,
-                opacity: 0,
-                scale: 0.96,
-                ease: 'none'
-            })
-
-            gsap.utils.toArray('.reveal-up').forEach((elem: any) => {
-                gsap.from(elem, {
-                    scrollTrigger: { trigger: elem, start: 'top 88%' },
-                    y: 40,
-                    opacity: 0,
-                    duration: 1,
-                    ease: 'power3.out'
-                })
-            })
-        }, containerRef)
-
-        return () => ctx.revert()
-    }, { scope: containerRef, dependencies: [expertise, experiences] })
-
+export function PortfolioView({ expertise, experiences, education, languages, additionalSkills, profile, projects, webProjects }: PortfolioViewProps) {
     return (
-        <div ref={containerRef} className="relative w-full bg-black font-sans text-white">
+        <PortfolioAnimator>
 
             {/* Fixed 3D Background */}
             <div className="fixed inset-0 z-0 pointer-events-none bg-black">
@@ -136,16 +89,7 @@ export function PortfolioClient({ expertise, experiences, education, languages, 
 
                                 {/* Download CV Button */}
                                 <div className="mt-2 text-left">
-                                    <button
-                                        onClick={async () => {
-                                            const { generateAndDownloadCV } = await import('@/lib/generateResume')
-                                            generateAndDownloadCV()
-                                        }}
-                                        className="group inline-flex items-center gap-3 px-6 py-3 rounded-full bg-white text-black font-mono text-xs tracking-widest uppercase hover:scale-[1.02] active:scale-95 transition-all"
-                                    >
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                                        Download Resume
-                                    </button>
+                                    <ResumeDownloadButton />
                                 </div>
                             </div>
 
@@ -159,9 +103,7 @@ export function PortfolioClient({ expertise, experiences, education, languages, 
                                         priority
                                         sizes="(max-width: 768px) 80vw, 40vw"
                                         className="object-cover object-top grayscale group-hover:grayscale-0 transition-all duration-700"
-                                        onError={(e) => {
-                                            (e.target as HTMLImageElement).src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect fill="%2318181b" width="100" height="100"/><text fill="%2352525b" font-family="monospace" font-size="6" x="50" y="50" text-anchor="middle">FOTO 4:5</text><text fill="%2352525b" font-family="monospace" font-size="4" x="50" y="60" text-anchor="middle">public/profile.jpg</text></svg>'
-                                        }}
+                                        
                                     />
                                     <div className="absolute inset-0 bg-gradient-to-tr from-indigo-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 mix-blend-overlay" />
                                 </div>
@@ -281,9 +223,7 @@ export function PortfolioClient({ expertise, experiences, education, languages, 
                                         fill
                                         sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
                                         className="object-cover transition-all duration-700 grayscale group-hover:grayscale-0 group-hover:scale-[1.06]"
-                                        onError={(e) => {
-                                            (e.target as HTMLElement).style.display = 'none'
-                                        }}
+                                        
                                     />
 
                                     {/* Subtle always-on vignette */}
@@ -532,6 +472,7 @@ export function PortfolioClient({ expertise, experiences, education, languages, 
                     </div>
                 </section>
             </div>
-        </div>
+        </PortfolioAnimator>
     )
 }
+
