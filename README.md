@@ -62,18 +62,21 @@ src/
 ## 🚀 Getting Started
 
 1. **Clone the repository:**
+
    ```bash
    git clone https://github.com/niskalahub/portfolio-niskala.git
    cd portfolio-niskala
    ```
 
 2. **Install dependencies:**
+
    ```bash
    npm install
    # or yarn / pnpm / bun
    ```
 
 3. **Start the development server:**
+
    ```bash
    npm run dev
    ```
@@ -155,18 +158,21 @@ src/
 ## 🚀 Getting Started
 
 1. **Clone the repository:**
+
    ```bash
    git clone https://github.com/niskalahub/portfolio-niskala.git
    cd portfolio-niskala
    ```
 
 2. **Install dependencies:**
+
    ```bash
    npm install
    # or yarn / pnpm / bun
    ```
 
 3. **Start the development server:**
+
    ```bash
    npm run dev
    ```
